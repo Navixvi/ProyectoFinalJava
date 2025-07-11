@@ -25,6 +25,14 @@ public class ProductoController {
         return service.listarTodos();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Producto> obtenerPorId(@PathVariable int id) {
+        Producto producto = service.buscarPorId(id)
+                .orElseThrow(() -> new ProductoNoEncontradoException("Producto con ID " + id + " no encontrado."));
+        return ResponseEntity.ok(producto);
+    }
+
+
     @PostMapping
     public ResponseEntity<Producto> crear(@RequestBody @Valid Producto producto) {
         Producto creado = service.guardar(producto);
